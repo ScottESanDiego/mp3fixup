@@ -98,11 +98,13 @@ def main():
     OutputFile="/tmp/mp3fixup.log"
     PreferredVolumeDB=89.0
 
-    parser=argparse.ArgumentParser()
-    parser.add_argument("-d", "--directory", help="directory to use (defaults to "+TopDirectory+")")
-    parser.add_argument("-p", "--processes", help="number of concurrent processes (defaults to number of cores)", type=int, default=NumProcesses)
-    parser.add_argument("-o", "--output", help="filename to save output to (defaults to "+OutputFile+")", default=OutputFile)
-    parser.add_argument("--volume", help="volume level in dB (defaults to "+str(PreferredVolumeDB)+")", type=float, default=PreferredVolumeDB)
+    parser=argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument("-d", "--directory", help="directory to use", default=TopDirectory)
+    parser.add_argument("-p", "--processes", help="number of concurrent processes", type=int, default=NumProcesses)
+    parser.add_argument("-o", "--output", help="filename to save output to", default=OutputFile)
+    parser.add_argument("--volume", help="volume level in dB", type=float, default=PreferredVolumeDB)
     parser.add_argument("-n", "--dryrun", help="echo commands rather than do them", action='store_true') 
     parser.add_argument("--track", help="use track gain instead of album gain", action='store_true') 
     parser.add_argument("--skipgain", help="do not run MP3Gain", action='store_true', default=False)
