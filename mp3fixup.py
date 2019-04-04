@@ -104,14 +104,21 @@ def main():
     parser.add_argument("-o", "--output", help="filename to save output to (defaults to "+OutputFile+")", default=OutputFile)
     parser.add_argument("--volume", help="volume level in dB (defaults to "+str(PreferredVolumeDB)+")", type=float, default=PreferredVolumeDB)
     parser.add_argument("-n", "--dryrun", help="echo commands rather than do them", action='store_true') 
+    parser.add_argument("--track", help="use track gain instead of album gain", action='store_true') 
     parser.add_argument("--skipgain", help="do not run MP3Gain", action='store_true', default=False)
     parser.add_argument("--skipval", help="do not run MP3Val", action='store_true', default=False)
     parser.add_argument("--skippack", help="do not run MP3Packer", action='store_true', default=False)
     args=parser.parse_args()
 
     global MP3GainExe, MP3GainArgs
+    # Have to parse Album vs Track gain arg here
+    if not args.track:
+        gaintype="-a"
+    else:
+        gaintype=""
+        
     MP3GainExe="/usr/bin/mp3gain"
-    MP3GainArgs=["-a", "-s", "s", "-d", str(args.volume-89.0), "-c", "-p"]
+    MP3GainArgs=[gaintype, "-s", "s", "-d", str(args.volume-89.0), "-c", "-p"]
 
     global MP3ValExe, MP3ValArgs
     MP3ValExe="/usr/bin/mp3val"
